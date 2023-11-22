@@ -11,7 +11,7 @@ async function main() {
     ],
     [200, 300, 100],  // HP values
     [50, 25, 100],    // Attack damage values
-    'Dragon',
+    'Diablo',
     'https://wallpapercave.com/uwp/uwp3520412.webp',
     10000,           //Boss Hp
     50               //Boss Damage
