@@ -190,11 +190,11 @@ contract MyEpicGame is ERC721 {
             if (randomInt(10) > 5) {
                 // by passing 10 as the mod, we elect to only grab the last digit (0-9) of the hash!
                 bigBoss.hp = bigBoss.hp - player.attackDamage;
-                console.log("Boss HP = %s", player.name, bigBoss.hp);
+                console.log("Boss HP = %s", bigBoss.name, bigBoss.hp);
+                emit AttackComplete(msg.sender, bigBoss.hp, player.hp);
             } else {
                 console.log("%s missed!\n", player.name);
             }
-            emit AttackComplete(msg.sender, bigBoss.hp, player.hp);
         }
 
         console.log("%s attacks %s...", bigBoss.name, player.name);
@@ -206,6 +206,7 @@ contract MyEpicGame is ERC721 {
                 // by passing 10 as the mod, we elect to only grab the last digit (0-9) of the hash!
                 player.hp = player.hp - bigBoss.attackDamage;
                 console.log("Player HP = %s", bigBoss.name, player.hp);
+                emit AttackComplete(msg.sender, bigBoss.hp, player.hp);
             } else {
                 console.log("%s missed!\n", bigBoss.name);
             }
