@@ -19,6 +19,27 @@ contract MyEpicGame is ERC721 {
         uint attackDamage;
     }
 
+    struct BigBoss {
+        string name;
+        string imageURI;
+        uint hp;
+        uint maxHp;
+        uint attackDamage;
+    }
+
+    function reviveCharacter() external {
+        uint256 nftTokenIdOfPlayer = nftHolders[msg.sender];
+        CharacterAttributes storage player = nftHolderAttributes[
+            nftTokenIdOfPlayer
+        ];
+        require(player.hp == 0, "Error: Only dead characters can be revived");
+
+        // Set the HP to the maximum HP upon revival
+        player.hp = player.maxHp;
+
+        emit AttackComplete(msg.sender, bigBoss.hp, player.hp);
+    }
+
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -34,14 +55,6 @@ contract MyEpicGame is ERC721 {
         uint256 characterIndex
     );
     event AttackComplete(address sender, uint newBossHp, uint newPlayerHp);
-
-    struct BigBoss {
-        string name;
-        string imageURI;
-        uint hp;
-        uint maxHp;
-        uint attackDamage;
-    }
 
     BigBoss public bigBoss;
 
