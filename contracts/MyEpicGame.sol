@@ -56,7 +56,6 @@ contract MyEpicGame is ERC721 {
     );
 
     event AttackComplete(address sender, uint currBossHp, uint currPlayerHp);
-    event BeforeAttack(address sender, uint prevBossHp, uint prevPlayerHp);
 
     BigBoss public bigBoss;
 
@@ -189,12 +188,10 @@ contract MyEpicGame is ERC721 {
             bigBoss.hp = 0;
             console.log("The boss is dead!");
         } else {
-            if (randomInt(10) > 5) {
+            if (randomInt(10) > 0) {
                 // by passing 10 as the mod, we elect to only grab the last digit (0-9) of the hash!
-                emit BeforeAttack(msg.sender, bigBoss.hp, player.hp);
                 bigBoss.hp = bigBoss.hp - player.attackDamage;
                 console.log("Boss HP = %s", bigBoss.name, bigBoss.hp);
-                emit AttackComplete(msg.sender, bigBoss.hp, player.hp);
             } else {
                 console.log("%s missed!\n", player.name);
             }
@@ -205,16 +202,15 @@ contract MyEpicGame is ERC721 {
             player.hp = 0;
             console.log("The player is dead!");
         } else {
-            if (randomInt(10) > 4) {
+            if (randomInt(10) > 0) {
                 // by passing 10 as the mod, we elect to only grab the last digit (0-9) of the hash!
-                emit BeforeAttack(msg.sender, bigBoss.hp, player.hp);
                 player.hp = player.hp - bigBoss.attackDamage;
                 console.log("Player HP = %s", bigBoss.name, player.hp);
-                emit AttackComplete(msg.sender, bigBoss.hp, player.hp);
             } else {
                 console.log("%s missed!\n", bigBoss.name);
             }
         }
+        emit AttackComplete(msg.sender, bigBoss.hp, player.hp);
     }
 
     uint randNonce = 0; // this is used to help ensure that the algorithm has different inputs every time
